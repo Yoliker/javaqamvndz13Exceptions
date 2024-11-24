@@ -81,4 +81,43 @@ public class ShopRepositoryTest {
         Assertions.assertEquals("набор фломастеров", product3.getTitle());
     }
 
+    @Test
+    public void shouldCheckIfAddsProductId() {
+        ShopRepository repo = new ShopRepository();
+        Product product4 = new Product(25, "маркер", 200);
+
+        repo.add(product1);
+        repo.add(product2);
+        repo.add(product3);
+        repo.add(product4);
+
+        Product[] expected = {product1, product2, product3, product4};
+        Product[] actual = repo.findAll();
+
+        Assertions.assertArrayEquals(expected, actual);
+
+
+    }
+
+    @Test
+    public void shouldCheckIfAddedProductIdExists() {
+        ShopRepository repo = new ShopRepository();
+        Product product4 = new Product(22, "маркер", 200);
+
+        repo.add(product1);
+        repo.add(product2);
+        repo.add(product3);
+
+    /*  repo.add(product4);
+
+        Product[] expected = { product1, product2, product3 };
+        Product[] actual = repo.findAll();
+
+        Assertions.assertArrayEquals(expected, actual);  */
+
+        Assertions.assertThrows(AlreadyExistsException.class, () -> {
+            repo.add(product4);
+        });
+    }
+
 }
